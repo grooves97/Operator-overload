@@ -11,14 +11,18 @@ namespace Day7_Tanks_
     {
         static void Main(string[] args)
         {
-            int tankAmount = 5, battles = 5;
+            int tankAmount = 5, battles = 5, characterisicsQuantity = 3, totalPanzerAmount = 10;
             Tank[] t34 = new Tank[tankAmount];
             Tank[] pantera = new Tank[tankAmount];
+            byte[] rndArray = new byte[characterisicsQuantity * totalPanzerAmount];
 
-            for (int i = 0; i < tankAmount; i++)
+            Random randomArray = new Random();
+            randomArray.NextBytes(rndArray);
+
+            for (int i = 0, j = 0; i < tankAmount; i++)
             {
-                t34[i] = new Tank();
-                pantera[i] = new Tank();
+                pantera[i] = new Tank(rndArray[j], rndArray[++j], rndArray[++j]);
+                t34[i] = new Tank(rndArray[++j], rndArray[++j], rndArray[++j]);
             }
 
             bool[] winner = new bool[battles];
@@ -27,8 +31,8 @@ namespace Day7_Tanks_
             {
                 for (int i = 0; i < tankAmount; i++)
                 {
-                    if (t34[i]._ammunition == 0 || t34[i]._armorLevel == 0 || t34[i]._maneuverability == 0 ||
-                        pantera[i]._ammunition == 0 || pantera[i]._armorLevel == 0 || pantera[i]._maneuverability == 0) { throw new Exception(); break; }
+                    if (t34[i].Ammunition == 0 || t34[i].ArmorLevel == 0 || t34[i].Maneuverability == 0 ||
+                        pantera[i].Ammunition == 0 || pantera[i].ArmorLevel == 0 || pantera[i].Maneuverability == 0) { throw new Exception(); break; }
                     else
                         winner[i] = t34[i] * pantera[i];
                 }
